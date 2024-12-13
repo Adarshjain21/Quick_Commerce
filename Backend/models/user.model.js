@@ -1,4 +1,3 @@
-import { verify } from "jsonwebtoken";
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
@@ -50,13 +49,13 @@ const userSchema = new mongoose.Schema(
     shoppingCart: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: "cartProduct",
+        ref: "CartProduct",
       },
     ],
     orderHistory: [
       {
         type: mongoose.Schema.ObjectId,
-        ref: "order",
+        ref: "Order",
       },
     ],
     forgotPasswordOTP: {
