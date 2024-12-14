@@ -212,10 +212,6 @@ export async function uploadAvatar(req, res) {
     const userId = req.userId;
     const image = req.file;
 
-    // console.log(userId);
-
-    // console.log(image);
-
     const upload = await uploadImageCloudinary(image);
     console.log(upload);
 
@@ -229,6 +225,44 @@ export async function uploadAvatar(req, res) {
         _id: userId,
         avatar: upload.url,
       },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+// update user details
+export async function updateUserDetails(req, res) {
+  try {
+    const userId = req.userId;
+    const { name, email, password, mobile } = req.body;
+
+    let hashPassword = "";
+
+    if (password) {
+      const salt = await bcryptjs.genSalt(10);
+      hashPassword = await bcryptjs.hash(password, salt);
+    }
+
+    const updateUser = await UserModel.updateOne(
+      { _id: userId },
+      {
+        ...(name && { name: name }),
+        ...(email && { email: email }),
+        ...(mobile && { mobile: mobile }),
+        ...(password && { password: hashPassword }),
+      }
+    );
+
+    return res.json({
+      message: "upadated user successfully",
+      error: false,
+      success: true,
+      data: updateUser,
     });
   } catch (error) {
     return res.status(500).json({

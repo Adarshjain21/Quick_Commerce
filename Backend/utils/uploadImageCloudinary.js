@@ -7,8 +7,6 @@ cloudinary.config({
 });
 
 const uploadImageCloudinary = async (image) => {
-  console.log(image, "adarsh");
-
   const buffer = image.buffer || Buffer.from(await image.arrayBuffer());
 
   const uploadImage = await new Promise((resolve, reject) => {
