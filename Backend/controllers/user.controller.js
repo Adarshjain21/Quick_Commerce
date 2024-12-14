@@ -5,6 +5,8 @@ import verifyEmailTemplate from "../utils/verifyEmailTemplate.js";
 import generateAccessToken from "../utils/generateAccessToken.js";
 import generateReferehToken from "../utils/generateRefreshToken.js";
 import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
+import generateOtp from "../utils/generateOtp.js";
+import forgotPasswordTempelate from "../utils/forgotPasswordTemplate.js";
 
 // register controller
 export async function registerUserController(req, res) {
@@ -263,6 +265,159 @@ export async function updateUserDetails(req, res) {
       error: false,
       success: true,
       data: updateUser,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+// forgot password
+export async function forgotPasswordController(req, res) {
+  try {
+    const { email } = req.body;
+
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "User not found",
+        error: true,
+        success: false,
+      });
+    }
+
+    const otp = generateOtp();
+    const expireTime = new Date() + 60 * 60 * 1000;
+
+    const update = await UserModel.findByIdAndUpdate(user._id, {
+      forgotPasswordOTP: otp,
+      forgotPasswordExpiry: new Date(expireTime).toISOString(),
+    });
+
+    await sendEmail({
+      sendTo: email,
+      subject: "Forgot password OTP from QuickCommerce",
+      html: forgotPasswordTempelate({
+        name: user.name,
+        otp: otp,
+      }),
+    });
+
+    return res.json({
+      message: "check your email",
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+// verify forgot password otp
+export async function verifyForgotPasswordOtp(req, res) {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      return res.status(400).json({
+        message: "Provide email or otp",
+        error: true,
+        success: false,
+      });
+    }
+
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Email not available",
+        error: true,
+        success: false,
+      });
+    }
+
+    const currentTime = new Date().toISOString();
+
+    if (user.forgotPasswordExpiry < currentTime) {
+      return res.status(400).json({
+        message: "OTP is expired",
+        error: true,
+        success: false,
+      });
+    }
+
+    if (otp !== user.forgotPasswordOTP) {
+      return res.status(400).json({
+        message: "Invalid OTP",
+        error: true,
+        success: false,
+      });
+    }
+
+    return res.json({
+      message: "Verify OTP successfully",
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+// reset the password
+export async function resetPassword(req, res) {
+  try {
+    const { email, newPassword, confirmPassword } = req.body;
+
+    if (!email || !newPassword || !confirmPassword) {
+      return res.status(400).json({
+        message: "Provide required field",
+        error: true,
+        success: false,
+      });
+    }
+
+    const user = await UserModel.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Email is not available",
+        error: true,
+        success: false,
+      });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        message: "newPassword and confirmPassword must be same",
+        error: true,
+        success: false,
+      });
+    }
+
+    const salt = await bcryptjs.genSalt(10);
+    const hashPassword = await bcryptjs.hash(newPassword, salt);
+
+    const upadate = await UserModel.findOneAndUpdate(user._id, {
+      password: hashPassword,
+    });
+
+    return res.json({
+      message: "New password updated successfully",
+      error: false,
+      success: true,
     });
   } catch (error) {
     return res.status(500).json({
