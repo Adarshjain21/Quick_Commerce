@@ -4,6 +4,7 @@ import sendEmail from "../utils/sendEmail.js";
 import verifyEmailTemplate from "../utils/verifyEmailTemplate.js";
 import generateAccessToken from "../utils/generateAccessToken.js";
 import generateReferehToken from "../utils/generateRefreshToken.js";
+import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
 
 // register controller
 export async function registerUserController(req, res) {
@@ -195,6 +196,39 @@ export async function logoutController(req, res) {
       message: "Logout successfully",
       error: false,
       success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+// upload user avatar
+export async function uploadAvatar(req, res) {
+  try {
+    const userId = req.userId;
+    const image = req.file;
+
+    // console.log(userId);
+
+    // console.log(image);
+
+    const upload = await uploadImageCloudinary(image);
+    console.log(upload);
+
+    const updateUser = await UserModel.findByIdAndUpdate(userId, {
+      avatar: upload.url,
+    });
+
+    return res.json({
+      message: "upload profile",
+      data: {
+        _id: userId,
+        avatar: upload.url,
+      },
     });
   } catch (error) {
     return res.status(500).json({
