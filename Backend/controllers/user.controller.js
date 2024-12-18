@@ -151,6 +151,10 @@ export async function loginController(req, res) {
     const accessToken = await generateAccessToken(user._id);
     const refreshToken = await generateReferehToken(user._id);
 
+    const upadateUser = await UserModel.findByIdAndUpdate(user?._id,{
+      lastLoginDate: new Date()
+    })
+
     const cookiesOption = {
       httpOnly: true,
       secure: true,
@@ -217,7 +221,7 @@ export async function uploadAvatar(req, res) {
     const image = req.file;
 
     const upload = await uploadImageCloudinary(image);
-    console.log(upload);
+    // console.log(upload);
 
     const updateUser = await UserModel.findByIdAndUpdate(userId, {
       avatar: upload.url,
@@ -225,6 +229,8 @@ export async function uploadAvatar(req, res) {
 
     return res.json({
       message: "upload profile",
+      error: false,
+      success: true,
       data: {
         _id: userId,
         avatar: upload.url,
@@ -263,7 +269,7 @@ export async function updateUserDetails(req, res) {
     );
 
     return res.json({
-      message: "upadated user successfully",
+      message: "upadated successfully",
       error: false,
       success: true,
       data: updateUser,
@@ -364,6 +370,11 @@ export async function verifyForgotPasswordOtp(req, res) {
       });
     }
 
+    const updateUser = await UserModel.findByIdAndUpdate(user?._id,{
+      forgotPasswordOTP: "",
+      forgotPasswordExpiry: ""
+    })
+
     return res.json({
       message: "Verify OTP successfully",
       error: false,
@@ -434,7 +445,7 @@ export async function resetPassword(req, res) {
 export async function refreshToken(req, res) {
   try {
     const refreshToken =
-      req.cookies.refreshToken || req?.header?.authorization?.split(" ")[1];
+      req.cookies.refreshToken || req?.headers?.authorization?.split(" ")[1];
 
     if (!refreshToken) {
       return res.status(401).json({
@@ -480,6 +491,28 @@ export async function refreshToken(req, res) {
   } catch (error) {
     return res.status(500).json({
       message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+// get login user details
+export async function userDetails(req, res) {
+  try {
+    const userId = req.userId;
+
+    const user = await UserModel.findById(userId).select('-password -refreshToken');
+
+    return res.json({
+      message: "User details",
+      data: user,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong",
       error: true,
       success: false,
     });
