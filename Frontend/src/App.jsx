@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import fetchUserDetails from "./utils/fetchUserDetails";
 import { setUserDetails } from "./store/userSlice"
 import { useDispatch } from "react-redux";
+import Footer from "./components/Footer";
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
       <div>
         <Outlet />
       </div>
+      <Footer />
       <Toaster />
     </>
   );

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { logout } from "../store/userSlice";
 import AxiosToastError from "../utils/AxiosToastError";
 import { HiOutlineExternalLink } from "react-icons/hi";
+import isAdmin from "../utils/isAdmin";
 
 const UserMenu = ({ close }) => {
   const user = useSelector((state) => state.user);
@@ -44,7 +45,7 @@ const UserMenu = ({ close }) => {
     <div>
       <div className="font-semibold">My Accounts</div>
       <div className="text-sm flex items-center gap-2">
-        <span className="max-w-52 text-ellipsis line-clamp-1">{user.name}</span>
+        <span className="max-w-52 text-ellipsis line-clamp-1">{user.name}<span className="text-[12px] text-red-600">{user.role === 'ADMIN' ? "(Admin)" : ""}</span></span>
         <Link
           to={"/dashboard/profile"}
           className="hover:text-primary-200"
@@ -55,7 +56,56 @@ const UserMenu = ({ close }) => {
       </div>
 
       <Divider />
+
       <div className="text-sm grid gap-1">
+      {
+        isAdmin(user.role) && (
+          <Link
+          to={"/dashboard/category"}
+          className="px-2 hover:bg-orange-200 py-1"
+          onClick={handleClose}
+        >
+          Category
+        </Link>
+        )
+      }
+      {
+        isAdmin(user.role) && (
+          <Link
+          to={"/dashboard/subCategory"}
+          className="px-2 hover:bg-orange-200 py-1"
+          onClick={handleClose}
+        >
+          Sub Category
+        </Link>
+        )
+      }
+      {
+        isAdmin(user.role) && (
+          <Link
+          to={"/dashboard/upload-product"}
+          className="px-2 hover:bg-orange-200 py-1"
+          onClick={handleClose}
+        >
+          Upload Product
+        </Link>
+        )
+      }
+      {
+        isAdmin(user.role) && (
+          <Link
+          to={"/dashboard/product"}
+          className="px-2 hover:bg-orange-200 py-1"
+          onClick={handleClose}
+        >
+          Product
+        </Link>
+        )
+      }
+        
+        
+        
+        
         <Link
           to={"/dashboard/myorders"}
           className="px-2 hover:bg-orange-200 py-1"

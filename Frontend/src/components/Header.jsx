@@ -43,7 +43,7 @@ const Header = () => {
   }
 
   return (
-    <header className="h-[120px] md:h-20 shadow-md sticky top-0 flex flex-col justify-center gap-1 bg-white px-6">
+    <header className="h-[120px] md:h-20 shadow-md sticky top-0 z-40 flex flex-col justify-center gap-1 bg-white px-6">
       {!(isSearchPage && isMobile) && (
         <div className="flex justify-between items-center px-5">
           {/* logo */}
