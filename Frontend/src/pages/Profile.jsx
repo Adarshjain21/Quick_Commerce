@@ -114,7 +114,7 @@ const Profile = () => {
           />
         </div>
         <div className="grid">
-          <label htmlFor="mobile">Name</label>
+          <label htmlFor="mobile">Mobile</label>
           <input
             id="mobile"
             type="text"

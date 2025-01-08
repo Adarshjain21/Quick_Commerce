@@ -45,7 +45,7 @@ const UserMenu = ({ close }) => {
     <div>
       <div className="font-semibold">My Accounts</div>
       <div className="text-sm flex items-center gap-2">
-        <span className="max-w-52 text-ellipsis line-clamp-1">{user.name}<span className="text-[12px] text-red-600">{user.role === 'ADMIN' ? "(Admin)" : ""}</span></span>
+        <span className="max-w-52 text-ellipsis line-clamp-1">{user.name}<span className="text-[12px] text-red-600">{user.role === 'ADMIN' ? " (Admin)" : ""}</span></span>
         <Link
           to={"/dashboard/profile"}
           className="hover:text-primary-200"
