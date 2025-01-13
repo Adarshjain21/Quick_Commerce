@@ -9,6 +9,8 @@ import EditCategory from "../components/EditCategory.jsx";
 import ConfirmBox from "../components/ConfirmBox.jsx";
 import toast from "react-hot-toast";
 import AxiosToastError from "../utils/AxiosToastError.js";
+import { useDispatch, useSelector } from "react-redux";
+import { setAllCategory } from "../store/productSlice.js";
 
 const CategoryPage = () => {
   const [openUploadCategory, setOpenUploadCategory] = useState(false);
@@ -23,6 +25,10 @@ const CategoryPage = () => {
   const [deleteCategory,setDeleteCategory] = useState({
     _id: ""
   })
+  const dispatch = useDispatch();
+  const allCategory = useSelector(state => state.product.allCategory)
+
+  
 
   const fetchCategory = async () => {
     try {
@@ -35,9 +41,9 @@ const CategoryPage = () => {
 
       if (responseData.success) {
         setCategoryData(responseData.data);
+        dispatch(setAllCategory(responseData.data))
       }
 
-      // console.log(responseData);
     } catch (error) {
     } finally {
       setLoading(false);
@@ -66,8 +72,6 @@ const CategoryPage = () => {
       AxiosToastError(error)
     }
   };
-
-  // console.log("categoryData", categoryData);
 
   return (
     <section>

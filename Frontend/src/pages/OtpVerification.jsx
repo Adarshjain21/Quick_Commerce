@@ -49,7 +49,6 @@ const OtpVerification = () => {
         });
       }
 
-      //   console.log("response", response);
     } catch (error) {
       AxiosToastError(error);
     }
@@ -69,7 +68,6 @@ const OtpVerification = () => {
                     key={"otp" + index}
                     type="text"
                     ref={(ref) => {
-                      //   console.log(ref);
 
                       inputRef.current[index] = ref;
 
@@ -83,7 +81,6 @@ const OtpVerification = () => {
                       const newData = [...data];
                       newData[index] = value;
                       setData(newData);
-                      //   console.log(value);
 
                       if (value && index < 5) {
                         inputRef.current[index + 1].focus();

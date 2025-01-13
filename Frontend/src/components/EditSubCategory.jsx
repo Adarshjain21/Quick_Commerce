@@ -7,15 +7,15 @@ import { useSelector } from "react-redux";
 import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
 
-const UploadSubCategoryModel = ({ close, fetchData }) => {
+const EditSubCategory = ({ close, data, fetchData }) => {
   const [subCategoryData, setSubCategoryData] = useState({
-    name: "",
-    image: "",
-    category: [],
+    _id: data._id,
+    name: data.name,
+    image: data.image,
+    category: data.category || [],
   });
   const [uploadLoading, setUploadLoading] = useState(false);
   const allCategory = useSelector((state) => state.product.allCategory);
-  const [selectCategory, setSelectCategory] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,46 +60,46 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
   };
 
   const handleRemoveCategorySelected = (categoryId) => {
-    const index = subCategoryData.category.findIndex(
-      (el) => el._id == categoryId
-    );
-    subCategoryData.category.splice(index, 1);
-    setSubCategoryData((prev) => {
-      return {
+    const updatedCategories = subCategoryData.category.filter(
+        (el) => el._id !== categoryId
+      );
+    
+      // Update the state with the new array
+      setSubCategoryData((prev) => ({
         ...prev,
-      };
-    });
-  };
+        category: updatedCategories,
+      }));
+  }
 
-  const handleSubmitSubCategory = async (e) => {
-    e.preventDefault();
+  const handleSubmitSubCategory = async(e) => {
+    e.preventDefault()
     try {
       const response = await Axios({
-        ...SummaryApi.createSubCategory,
-        data: subCategoryData,
-      });
+        ...SummaryApi.updateSubCategory,
+        data: subCategoryData
+      })
 
-      const { data: responseData } = response;
+      const {data: responseData} = response      
 
-      if (responseData.success) {
-        toast.success(responseData.message);
-        if (close) {
-          close();
+      if(responseData.success){
+        toast.success(responseData.message)
+        if(close){
+          close()
         }
-        if (fetchData) {
-          fetchData();
+        if(fetchData){
+            fetchData()
         }
       }
     } catch (error) {
-      AxiosToastError(error);
+      AxiosToastError(error)
     }
-  };
+  }
 
   return (
     <section className="fixed top-0 right-0 left-0 bottom-0 bg-neutral-800 bg-opacity-60 z-50 flex items-center justify-center p-4">
       <div className="w-full max-w-5xl bg-white p-4 rounded">
         <div className="flex justify-between items-center gap-3">
-          <h1 className="font-semibold">Add Sub Category</h1>
+          <h1 className="font-semibold">Edit Sub Category</h1>
           <button>
             <IoClose size={25} onClick={close} />
           </button>
@@ -132,11 +132,7 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
                   )}
                 </div>
                 <label htmlFor="uploadSubCategoryImage">
-                  <div
-                    className={`px-4 py-1 border border-primary-100 text-primary-200 rounded hover:bg-primary-200 hover:text-neutral-900  ${
-                      uploadLoading ? "cursor-not-allowed" : "cursor-pointer"
-                    } `}
-                  >
+                  <div className="px-4 py-1 border border-primary-100 text-primary-200 rounded hover:bg-primary-200 hover:text-neutral-900 cursor-pointer">
                     {uploadLoading ? "Loading..." : "Upload Image"}
                   </div>
                   <input
@@ -144,7 +140,6 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
                     id="uploadSubCategoryImage"
                     className="hidden"
                     onChange={handleUploadSubCategoryImage}
-                    disabled={uploadLoading}
                   />
                 </label>
               </div>
@@ -153,26 +148,21 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
               <label htmlFor="">Select Category</label>
               <div className="border focus-within:border-primary-200 rounded">
                 <div className="flex items-center flex-wrap gap-2">
-                  {subCategoryData.category.map((cat, index) => {
-                    return (
-                      <div
-                        key={cat._id + "selectedValue"}
-                        className="bg-white shadow-md px-1 m-1 flex items-center gap-2"
-                      >
+                {
+                  subCategoryData.category.map((cat,index) => {
+                    return(
+                      <p key={cat._id + "selectedValue"} className="bg-white shadow-md px-1 m-1 flex items-center gap-2">
                         {cat.name}
-                        <div
-                          className="cursor-pointer hover:text-red-500"
-                          onClick={() => handleRemoveCategorySelected(cat._id)}
-                        >
-                          <IoClose size={20} />
+                        <div className="cursor-pointer hover:text-red-500" onClick={() => handleRemoveCategorySelected(cat._id)}>
+                          <IoClose size={20}/>
                         </div>
-                      </div>
-                    );
-                  })}
+                        </p>
+                    )
+                  })
+                }
                 </div>
                 <select
                   className="w-full p-2 bg-transparent outline-none border"
-                  value={selectCategory}
                   onChange={(e) => {
                     const value = e.target.value;
                     const categoryDetails = allCategory.find(
@@ -185,13 +175,12 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
                         category: [...prev.category, categoryDetails],
                       };
                     });
-                    setSelectCategory("");
                   }}
                 >
-                  <option value={""} disabled>
+                  <option value={""}>
                     Select Category
                   </option>
-                  {/* {allCategory.map((category, index) => {
+                  {allCategory.map((category, index) => {
                     return (
                       <option
                         value={category?._id}
@@ -200,42 +189,13 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
                         {category?.name}
                       </option>
                     );
-                  })} */}
-                  {allCategory.map((category) => {
-                    const isSelected = subCategoryData.category.some(
-                      (selectedCategory) =>
-                        selectedCategory._id === category._id
-                    );
-
-                    return (
-                      <option
-                        value={category._id}
-                        key={category._id + "subCategory"}
-                        disabled={isSelected} // Disable if the category is already selected
-                      >
-                        {category.name}
-                      </option>
-                    );
                   })}
                 </select>
               </div>
             </div>
             <button
-              disabled={
-                subCategoryData?.name &&
-                subCategoryData?.image &&
-                subCategoryData?.category[0]
-                  ? false
-                  : true
-              }
-              className={`px-4 py-2 border
-              ${
-                subCategoryData?.name &&
-                subCategoryData?.image &&
-                subCategoryData?.category[0]
-                  ? "bg-primary-200 hover:bg-primary-100"
-                  : "bg-gray-200 cursor-not-allowed"
-              }
+            className={`px-4 py-2 border
+              ${subCategoryData?.name && subCategoryData?.image && subCategoryData?.category[0] ? "bg-primary-200 hover:bg-primary-100" : "bg-gray-200"}
               font-semibold
               `}
             >
@@ -248,4 +208,5 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
   );
 };
 
-export default UploadSubCategoryModel;
+export default EditSubCategory;
+

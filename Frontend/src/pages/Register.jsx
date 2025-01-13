@@ -20,7 +20,6 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handlechange = (e) => {
-    // console.log(e.target);
 
     const { name, value } = e.target;
 
@@ -63,7 +62,6 @@ const Register = () => {
         navigate("/login");
       }
 
-      console.log("response", response);
     } catch (error) {
       AxiosToastError(error);
     }

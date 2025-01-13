@@ -13,7 +13,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handlechange = (e) => {
-    // console.log(e.target);
 
     const { name, value } = e.target;
 
@@ -50,7 +49,6 @@ const Login = () => {
         });
       }
 
-      //   console.log("response", response);
     } catch (error) {
       AxiosToastError(error);
     }

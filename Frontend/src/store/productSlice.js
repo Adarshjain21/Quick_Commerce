@@ -10,9 +10,7 @@ const productSlice = createSlice({
     name: "product",
     initialState: initialValue,
     reducers: {
-        setAllCategory: (state,action) => {
-            console.log("all catrgory redux store", action.payload);
-            
+        setAllCategory: (state,action) => {             
                 state.allCategory = [...action.payload]
         }
     }

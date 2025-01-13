@@ -5,6 +5,8 @@ import Axios from "../utils/Axios.js";
 import SummaryApi from "../common/SummaryApi.js";
 import toast from "react-hot-toast";
 import AxiosToastError from "../utils/AxiosToastError.js";
+// import { useDispatch } from "react-redux";
+// import { setAllCategory } from "../store/productSlice.js";
 
 const UploadCategoryModel = ({ close, fetchData }) => {
   const [data, setData] = useState({
@@ -13,6 +15,7 @@ const UploadCategoryModel = ({ close, fetchData }) => {
   });
   const [uploadLoading, setUploadLoading] = useState(false);
   const [loading, setLoading] = useState(false);
+  // const dispatch = useDispatch()
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +43,7 @@ const UploadCategoryModel = ({ close, fetchData }) => {
 
       if (responseData.success) {
         toast.success(responseData.message);
+        // dispatch(setAllCategory(responseData.data))
         close();
         fetchData();
       }
@@ -59,9 +63,7 @@ const UploadCategoryModel = ({ close, fetchData }) => {
   
     setUploadLoading(true);
     try {
-      const response = await uploadImage(file);
-      // console.log(response);
-      
+      const response = await uploadImage(file);      
   
       if (response && response.data) {
         const { data: ImageResponse } = response;

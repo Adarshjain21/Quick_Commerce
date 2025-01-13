@@ -4,8 +4,6 @@ const uploadImageController = async(req,res) => {
     try {
         const file = req.file
 
-        // console.log("filedhfhdfhdjfhjasdh",file);
-
         const uploadImage = await uploadImageCloudinary(file)
 
         return res.json({

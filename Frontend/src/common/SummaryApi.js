@@ -7,60 +7,76 @@ const SummaryApi = {
   },
   login: {
     url: "api/user/login",
-    method: "post"
+    method: "post",
   },
   forgot_password: {
     url: "api/user/forgot-password",
-    method: "put"
+    method: "put",
   },
   forgot_password_otp_verification: {
     url: "api/user/verify-forgot-password-otp",
-    method: "put"
+    method: "put",
   },
   resetPassord: {
     url: "api/user/reset-password",
-    method: "put"
+    method: "put",
   },
   refreshToken: {
     url: "api/user/refresh-token",
-    method: "post"
+    method: "post",
   },
   userDetails: {
     url: "api/user/user-details",
-    method: "get"
+    method: "get",
   },
   logout: {
     url: "api/user/logout",
-    method: "get"
+    method: "get",
   },
   uploadAvatar: {
     url: "api/user/upload-avatar",
-    method: "put"
+    method: "put",
   },
   updateUserDetails: {
     url: "api/user/update-user",
-    method: "put"
+    method: "put",
   },
   addCategory: {
     url: "/api/category/add-category",
-    method: "post"
+    method: "post",
   },
   uploadImage: {
     url: "/api/file/upload",
-    method: "post"
+    method: "post",
   },
   getCategory: {
     url: "/api/category/get",
-    method: "get"
+    method: "get",
   },
   updateCategory: {
     url: "/api/category/update",
-    method: "put"
+    method: "put",
   },
   deleteCategory: {
     url: "/api/category/delete",
-    method: "delete"
-  }
+    method: "delete",
+  },
+  createSubCategory: {
+    url: "/api/subCategory/create",
+    method: "post",
+  },
+  getSubCategory: {
+    url: "/api/subCategory/get",
+    method: "post",
+  },
+  updateSubCategory: {
+    url: "/api/subCategory/update",
+    method: "put",
+  },
+  deleteSubCategory: {
+    url: "/api/subCategory/delete",
+    method: "delete",
+  },
 };
 
 export default SummaryApi;

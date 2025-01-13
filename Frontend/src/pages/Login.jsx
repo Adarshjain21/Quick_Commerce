@@ -21,7 +21,6 @@ const Login = () => {
   const dispatch = useDispatch()
 
   const handlechange = (e) => {
-    // console.log(e.target);
 
     const { name, value } = e.target;
 
@@ -63,7 +62,6 @@ const Login = () => {
         navigate("/");
       }
 
-      console.log("response", response);
     } catch (error) {
       AxiosToastError(error);
     }

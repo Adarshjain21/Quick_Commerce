@@ -23,8 +23,6 @@ const Header = () => {
 
   const [openUserMenu, setOpenUserMenu] = useState(false);
 
-  // console.log("user from store", user);
-
   const redirectToLoginPage = () => {
     navigate("/login");
   };
