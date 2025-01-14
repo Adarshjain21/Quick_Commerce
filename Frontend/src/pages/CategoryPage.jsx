@@ -22,13 +22,11 @@ const CategoryPage = () => {
     name: "",
     image: "",
   });
-  const [deleteCategory,setDeleteCategory] = useState({
-    _id: ""
-  })
+  const [deleteCategory, setDeleteCategory] = useState({
+    _id: "",
+  });
   const dispatch = useDispatch();
-  const allCategory = useSelector(state => state.product.allCategory)
-
-  
+  const allCategory = useSelector((state) => state.product.allCategory);
 
   const fetchCategory = async () => {
     try {
@@ -41,9 +39,8 @@ const CategoryPage = () => {
 
       if (responseData.success) {
         setCategoryData(responseData.data);
-        dispatch(setAllCategory(responseData.data))
+        dispatch(setAllCategory(responseData.data));
       }
-
     } catch (error) {
     } finally {
       setLoading(false);
@@ -54,22 +51,25 @@ const CategoryPage = () => {
     fetchCategory();
   }, []);
 
-  const handleDeleteCategory = async() => {
+  const handleDeleteCategory = async () => {
     try {
       const response = await Axios({
         ...SummaryApi.deleteCategory,
-        data: deleteCategory
-      })
+        data: deleteCategory,
+      });
 
-      const {data: responseData } = response
+      const { data: responseData } = response;
 
-      if(responseData.success){
-        toast.success(responseData.message)
-        fetchCategory()
-        setOpenConfirmBoxDelete(false)
+      if (responseData.success) {
+        toast.success(responseData.message);
+        fetchCategory();
+        setOpenConfirmBoxDelete(false);
+        setDeleteCategory({
+          _id: "",
+        });
       }
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     }
   };
 
@@ -90,7 +90,10 @@ const CategoryPage = () => {
       <div className="p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 place-items-center">
         {categoryData.map((category, index) => {
           return (
-            <div className="w-32 h-56 rounded shadow-md mb-3" key={category._id}>
+            <div
+              className="w-32 h-56 rounded shadow-md mb-3"
+              key={category._id}
+            >
               <img
                 src={category.image}
                 alt={category.name}
@@ -109,7 +112,7 @@ const CategoryPage = () => {
                 <button
                   onClick={() => {
                     setOpenConfirmBoxDelete(true);
-                    setDeleteCategory(category)
+                    setDeleteCategory(category);
                   }}
                   className="flex-1 bg-red-100 hover:bg-red-200 text-red-600 font-medium py-1 rounded"
                 >

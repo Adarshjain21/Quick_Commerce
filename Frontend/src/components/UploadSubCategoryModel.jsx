@@ -86,9 +86,9 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
         if (close) {
           close();
         }
-        if (fetchData) {
+        // if (fetchData) {
           fetchData();
-        }
+        // }
       }
     } catch (error) {
       AxiosToastError(error);

@@ -11,6 +11,8 @@ import { MdOutlineDelete } from "react-icons/md";
 import EditSubCategory from "../components/EditSubCategory";
 import ConfirmBox from "../components/ConfirmBox";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setAllSubCategory } from "../store/productSlice";
 
 const SubCategoryPage = () => {
   const [openAddSubCategory, setOpenAddSubCategory] = useState(false);
@@ -26,6 +28,7 @@ const SubCategoryPage = () => {
     _id: "",
   });
   const [openDeleteConfirmBox, setOpenDeleteConfirmBox] = useState(false);
+  const dispatch = useDispatch();
 
   const fetchSubCategory = async () => {
     try {
@@ -38,6 +41,7 @@ const SubCategoryPage = () => {
 
       if (responseData.success) {
         setData(responseData.data);
+        dispatch(setAllSubCategory(responseData.data));
       }
     } catch (error) {
       AxiosToastError;

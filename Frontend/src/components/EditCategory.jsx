@@ -57,19 +57,19 @@ const EditCategory = ({ close, fetchData, data: CategoryData }) => {
       toast.error("No file selected.");
       return;
     }
-  
+
     setUploadLoading(true);
     try {
-        const response = await uploadImage(file);
-  
+      const response = await uploadImage(file);
+
       if (response && response.data) {
         const { data: ImageResponse } = response;
-  
+
         setData((prev) => ({
           ...prev,
           image: ImageResponse.data.url,
         }));
-  
+
         toast.success("Image uploaded successfully.");
       } else {
         toast.error("Failed to upload image. Please try again.");
@@ -80,7 +80,6 @@ const EditCategory = ({ close, fetchData, data: CategoryData }) => {
       setUploadLoading(false);
     }
   };
-  
 
   return (
     <section className="fixed top-0 bottom-0 left-0 right-0 p-4 bg-neutral-800 bg-opacity-60 flex items-center justify-center">

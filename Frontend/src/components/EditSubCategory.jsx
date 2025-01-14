@@ -61,39 +61,39 @@ const EditSubCategory = ({ close, data, fetchData }) => {
 
   const handleRemoveCategorySelected = (categoryId) => {
     const updatedCategories = subCategoryData.category.filter(
-        (el) => el._id !== categoryId
-      );
-    
-      // Update the state with the new array
-      setSubCategoryData((prev) => ({
-        ...prev,
-        category: updatedCategories,
-      }));
-  }
+      (el) => el._id !== categoryId
+    );
 
-  const handleSubmitSubCategory = async(e) => {
-    e.preventDefault()
+    // Update the state with the new array
+    setSubCategoryData((prev) => ({
+      ...prev,
+      category: updatedCategories,
+    }));
+  };
+
+  const handleSubmitSubCategory = async (e) => {
+    e.preventDefault();
     try {
       const response = await Axios({
         ...SummaryApi.updateSubCategory,
-        data: subCategoryData
-      })
+        data: subCategoryData,
+      });
 
-      const {data: responseData} = response      
+      const { data: responseData } = response;
 
-      if(responseData.success){
-        toast.success(responseData.message)
-        if(close){
-          close()
+      if (responseData.success) {
+        toast.success(responseData.message);
+        if (close) {
+          close();
         }
-        if(fetchData){
-            fetchData()
+        if (fetchData) {
+          fetchData();
         }
       }
     } catch (error) {
-      AxiosToastError(error)
+      AxiosToastError(error);
     }
-  }
+  };
 
   return (
     <section className="fixed top-0 right-0 left-0 bottom-0 bg-neutral-800 bg-opacity-60 z-50 flex items-center justify-center p-4">
@@ -148,18 +148,22 @@ const EditSubCategory = ({ close, data, fetchData }) => {
               <label htmlFor="">Select Category</label>
               <div className="border focus-within:border-primary-200 rounded">
                 <div className="flex items-center flex-wrap gap-2">
-                {
-                  subCategoryData.category.map((cat,index) => {
-                    return(
-                      <p key={cat._id + "selectedValue"} className="bg-white shadow-md px-1 m-1 flex items-center gap-2">
+                  {subCategoryData.category.map((cat, index) => {
+                    return (
+                      <p
+                        key={cat._id + "selectedValue"}
+                        className="bg-white shadow-md px-1 m-1 flex items-center gap-2"
+                      >
                         {cat.name}
-                        <div className="cursor-pointer hover:text-red-500" onClick={() => handleRemoveCategorySelected(cat._id)}>
-                          <IoClose size={20}/>
+                        <div
+                          className="cursor-pointer hover:text-red-500"
+                          onClick={() => handleRemoveCategorySelected(cat._id)}
+                        >
+                          <IoClose size={20} />
                         </div>
-                        </p>
-                    )
-                  })
-                }
+                      </p>
+                    );
+                  })}
                 </div>
                 <select
                   className="w-full p-2 bg-transparent outline-none border"
@@ -177,9 +181,7 @@ const EditSubCategory = ({ close, data, fetchData }) => {
                     });
                   }}
                 >
-                  <option value={""}>
-                    Select Category
-                  </option>
+                  <option value={""}>Select Category</option>
                   {allCategory.map((category, index) => {
                     return (
                       <option
@@ -194,8 +196,14 @@ const EditSubCategory = ({ close, data, fetchData }) => {
               </div>
             </div>
             <button
-            className={`px-4 py-2 border
-              ${subCategoryData?.name && subCategoryData?.image && subCategoryData?.category[0] ? "bg-primary-200 hover:bg-primary-100" : "bg-gray-200"}
+              className={`px-4 py-2 border
+              ${
+                subCategoryData?.name &&
+                subCategoryData?.image &&
+                subCategoryData?.category[0]
+                  ? "bg-primary-200 hover:bg-primary-100"
+                  : "bg-gray-200"
+              }
               font-semibold
               `}
             >
@@ -209,4 +217,3 @@ const EditSubCategory = ({ close, data, fetchData }) => {
 };
 
 export default EditSubCategory;
-

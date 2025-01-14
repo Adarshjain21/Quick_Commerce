@@ -124,7 +124,7 @@ const UploadCategoryModel = ({ close, fetchData }) => {
                 <div
                   className={`
                 ${
-                  !data.name
+                  !data.name || uploadLoading
                     ? "bg-gray-300 cursor-not-allowed"
                     : "border-primary-200 hover:bg-primary-100 cursor-pointer"
                 }
@@ -134,7 +134,7 @@ const UploadCategoryModel = ({ close, fetchData }) => {
                   {uploadLoading ? "Loading..." : "Upload Image"}
                 </div>
                 <input
-                  disabled={!data.name}
+                  disabled={!data.name || uploadLoading}
                   onChange={handleUploadCategoryImage}
                   type="file"
                   id="uploadCategoryImage"
