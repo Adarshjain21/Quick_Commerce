@@ -23,7 +23,7 @@ const ProductAdmin = () => {
         ...SummaryApi.getProduct,
         data: {
           page: page,
-          limit: 3,
+          limit: 12,
           search: search,
         },
       });
@@ -92,7 +92,7 @@ const ProductAdmin = () => {
         <div className="p-4 bg-blue-50">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {productData.map((p, index) => {
-              return <ProductCardAdmin key={index + "prodctIndex"} data={p} />;
+              return <ProductCardAdmin key={index + "prodctIndex"} data={p} fetchProductData={fetchProductData}/>;
             })}
           </div>
           <div

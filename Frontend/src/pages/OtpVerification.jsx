@@ -48,7 +48,6 @@ const OtpVerification = () => {
           },
         });
       }
-
     } catch (error) {
       AxiosToastError(error);
     }
@@ -68,7 +67,6 @@ const OtpVerification = () => {
                     key={"otp" + index}
                     type="text"
                     ref={(ref) => {
-
                       inputRef.current[index] = ref;
 
                       return ref;

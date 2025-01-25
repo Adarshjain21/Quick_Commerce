@@ -7,9 +7,20 @@ import fetchUserDetails from "./utils/fetchUserDetails";
 import { setUserDetails } from "./store/userSlice";
 import { useDispatch } from "react-redux";
 import Footer from "./components/Footer";
-import { setAllCategory, setAllSubCategory } from "./store/productSlice";
+import {
+  setAllCategory,
+  setAllSubCategory,
+  setLoadingCategory,
+} from "./store/productSlice";
 import Axios from "./utils/Axios";
 import SummaryApi from "./common/SummaryApi";
+import AxiosToastError from "./utils/AxiosToastError";
+import { handleAddItemCart } from "./store/cartProduct";
+import GlobalProvider, {
+  useGlobalContext,
+} from "./provider/GlobalProvider.jsx";
+import { FaCartShopping } from "react-icons/fa6";
+import CartMobile from "./components/CartMobile.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,6 +32,7 @@ function App() {
 
   const fetchCategory = async () => {
     try {
+      dispatch(setLoadingCategory(true));
       const response = await Axios({
         ...SummaryApi.getCategory,
       });
@@ -32,6 +44,7 @@ function App() {
       }
     } catch (error) {
     } finally {
+      dispatch(setLoadingCategory(false));
     }
   };
 
@@ -55,17 +68,19 @@ function App() {
     fetchUser();
     fetchCategory();
     fetchSubCategory();
+    // fetchCartItem();
   }, []);
 
   return (
-    <>
+    <GlobalProvider>
       <Header />
-      <div>
+      <div className="min-h-[78vh]">
         <Outlet />
       </div>
       <Footer />
       <Toaster />
-    </>
+      <CartMobile />
+    </GlobalProvider>
   );
 }
 

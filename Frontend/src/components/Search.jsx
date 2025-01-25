@@ -10,6 +10,8 @@ const Search = () => {
   const location = useLocation();
   const [isSearchPage, setIsSearchPage] = useState(false);
   const [isMobile] = useMobile();
+  const params = useLocation()
+  const searchText = params.search.slice(3)  
 
   useEffect(() => {
     const page = location.pathname === "/search";
@@ -19,6 +21,12 @@ const Search = () => {
   const redirectToSearchPage = () => {
     navigate("/search");
   };
+
+  const handleOnChange = (e) => {
+    const value = e.target.value
+    const url = `/search?q=${value}`
+    navigate(url)
+  }
 
   return (
     <div className="w-full min-w-[300px] md:min-w-[420px] lg:min-w-[500px] h-10 lg:h-12 rounded-lg border border-gray-300 overflow-hidden flex items-center text-neutral-500 bg-slate-50 group focus-within:border-primary-200">
@@ -70,6 +78,8 @@ const Search = () => {
               placeholder="Search for dal chawal and more"
               className="bg-transparent w-full h-full outline-none"
               autoFocus
+              onChange={handleOnChange}
+              defaultValue={searchText}
             />
           </div>
         )}

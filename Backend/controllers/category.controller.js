@@ -48,6 +48,9 @@ export const getCategoryController = async (req, res) => {
   try {
     const data = await CategoryModel.find().sort({createdAt: -1});
 
+    console.log(CategoryModel);
+    
+
     return res.json({
       data: data,
       error: false,
