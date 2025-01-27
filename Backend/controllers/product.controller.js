@@ -318,12 +318,31 @@ export const searchProduct = async (req, res) => {
     //     }
     //   : {};
 
+    // const query = search
+    //   ? {
+    //       name: {
+    //        $regex: `\\b${search}\\b`, // Match whole words only
+    //         $options: "i"
+    //       },
+    //     }
+    //   : {};
+
     const query = search
       ? {
-          name: {
-           $regex: `\\b${search}\\b`, // Match whole words only
-            $options: "i"
-          },
+          $or: [
+            {
+              name: {
+                $regex: search,
+                $options: "i",
+              },
+            },
+            {
+              description: {
+                $regex: search,
+                $options: "i",
+              },
+            },
+          ],
         }
       : {};
 

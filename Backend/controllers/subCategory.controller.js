@@ -39,9 +39,7 @@ export const AddSubCategoryController = async (req, res) => {
 
 export const getSubCategoryController = async (req, res) => {
   try {
-    const data = await SubCategoryModel.find()
-      .sort()
-      .populate("category");
+    const data = await SubCategoryModel.find().sort().populate("category");
     return res.json({
       message: "Sub Category Data",
       data: data,
@@ -94,7 +92,7 @@ export const updateSubCategoryController = async (req, res) => {
 
 export const deleteSubCategoryController = async (req, res) => {
   try {
-    const {_id} = req.body
+    const { _id } = req.body;
 
     const checkProduct = await ProductModel.find({
       subCategory: {
@@ -110,19 +108,19 @@ export const deleteSubCategoryController = async (req, res) => {
       });
     }
 
-    const deleteSub = await SubCategoryModel.findByIdAndDelete(_id)
+    const deleteSub = await SubCategoryModel.findByIdAndDelete(_id);
 
     return res.json({
       message: "Deleted Successfully",
       data: deleteSub,
       error: false,
-      success: true
-    })
+      success: true,
+    });
   } catch (error) {
     return res.json({
       message: error.message || error,
       error: true,
-      success: false
-    })
+      success: false,
+    });
   }
 };

@@ -95,36 +95,64 @@ const SummaryApi = {
   },
   getProductDetails: {
     url: "/api/product/get-product-details",
-    method: "post"
+    method: "post",
   },
   updateProductDetails: {
     url: "/api/product/update-product-details",
-    method: "put"
+    method: "put",
   },
   deleteProduct: {
     url: "/api/product/delete-product",
-    method: "delete"
+    method: "delete",
   },
   searchProduct: {
     url: "/api/product/search-product",
-    method: "post"
+    method: "post",
   },
   addToCart: {
     url: "/api/cart/create",
-    method: "post"
+    method: "post",
   },
   getCartItem: {
     url: "/api/cart/get",
-    method: "get"
+    method: "get",
   },
   updateCartItemQty: {
     url: "/api/cart/update-qty",
-    method: "put"
+    method: "put",
   },
   deleteCartItem: {
     url: "/api/cart/delete-cart-item",
-    method: "delete"
-  }
+    method: "delete",
+  },
+  createAddress: {
+    url: "/api/address/create",
+    method: "post",
+  },
+  getAddress: {
+    url: "/api/address/get",
+    method: "get",
+  },
+  updateAddress: {
+    url: "/api/address/update",
+    method: "put",
+  },
+  disableAddress: {
+    url: "/api/address/disable",
+    method: "delete",
+  },
+  cashOnDeliveryOrder: {
+    url: "/api/order/cash-on-delivery",
+    method: "post",
+  },
+  paymentURL: {
+    url: "/api/order/checkout",
+    method: "post",
+  },
+  getOrderItems: {
+    url: "/api/order/order-list",
+    method: "get",
+  },
 };
 
 export default SummaryApi;

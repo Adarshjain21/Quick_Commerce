@@ -20,6 +20,9 @@ import AdminPermission from "../layout/AdminPermission";
 import ProductListPage from "../pages/ProductListPage";
 import ProductDisplayPage from "../pages/ProductDisplayPage";
 import CartMobilePage from "../pages/CartMobilePage";
+import CheckoutPage from "../pages/CheckoutPage";
+import Success from "../pages/Success";
+import Cancel from "../pages/Cancel";
 
 const router = createBrowserRouter([
   {
@@ -125,6 +128,18 @@ const router = createBrowserRouter([
         path: "cart",
         element: <CartMobilePage />,
       },
+      {
+        path: "checkout",
+        element: <CheckoutPage />
+      },
+      {
+        path: "success",
+        element: <Success />
+      },
+      {
+        path: "cancel",
+        element: <Cancel />
+      }
     ],
   },
 ]);
