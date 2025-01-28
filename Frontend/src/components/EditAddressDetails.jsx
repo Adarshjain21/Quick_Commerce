@@ -23,7 +23,6 @@ const EditAddressDetails = ({ close, data }) => {
   const { fetchAddress } = useGlobalContext();
 
   const onSubmit = async (data) => {
-    console.log("data", data);
 
     try {
       const response = await Axios({

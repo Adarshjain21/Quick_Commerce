@@ -17,14 +17,10 @@ const ProductListPage = () => {
   const allSubCategory = useSelector((state) => state.product.allSubCategory);
   const [displaySubCategory, setDisplaySubCategory] = useState([]);
 
-  // console.log(params.subCategory);
-
   const subCategory = params.subCategory.split("-");
   const subCategoryName = subCategory
     .slice(0, subCategory.length - 1)
     .join(" ");
-
-  console.log("subCategoryName", subCategoryName);
 
   const categoryId = params.category.split("-").slice(-1)[0];
   const subCategoryId = params.subCategory.split("-").slice(-1)[0];
@@ -73,8 +69,6 @@ const ProductListPage = () => {
     });
     setDisplaySubCategory(sub);
   }, [params, allSubCategory]);
-
-  console.log("data", data);
 
   return (
     <section className="sticky top-24 lg:top-20">

@@ -20,8 +20,6 @@ const sendEmail = async ({ sendTo, subject, html }) => {
     if (error) {
       return console.error({ error });
     }
-
-    // console.log(data);
     
     return data;
   } catch (error) {

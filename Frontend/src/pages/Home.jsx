@@ -20,8 +20,6 @@ const Home = () => {
       return filterData ? true : null;
     });
 
-    // console.log('subCategory', subCategory);
-
     const url = `/${validURLConvert(cat)}-${id}/${validURLConvert(
       subCategory.name
     )}-${subCategory._id}`;

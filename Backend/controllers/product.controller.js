@@ -180,17 +180,12 @@ export const getProductByCategoryAndSubCategory = async (req, res) => {
       ],
     };
 
-    // console.log('query', query);
-
     const skip = (page - 1) * limit;
 
     const [data, dataCount] = await Promise.all([
       ProductModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit),
       ProductModel.countDocuments(query),
     ]);
-    // console.log(ProductModel);
-
-    // console.log('data', data);
 
     return res.json({
       message: "Product list",
@@ -214,11 +209,7 @@ export const getProductDetails = async (req, res) => {
   try {
     const { productId } = req.body;
 
-    console.log("productId", productId);
-
     const product = await ProductModel.findOne({ _id: productId });
-
-    console.log("product", product);
 
     return res.json({
       message: "Product Details",

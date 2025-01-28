@@ -30,8 +30,6 @@ const ProductAdmin = () => {
 
       const { data: responseData } = response;
 
-      console.log(responseData);
-
       if (responseData.success) {
         setTotalPageCount(responseData.totalNoPage);
         setProductData(responseData.data);

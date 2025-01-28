@@ -31,7 +31,6 @@ const GlobalProvider = ({ children }) => {
 
       if (responseData.success) {
         dispatch(handleAddItemCart(responseData.data));
-        console.log(responseData);
       }
     } catch (error) {
       console.log(error)
@@ -66,8 +65,6 @@ const GlobalProvider = ({ children }) => {
           _id: cartId,
         },
       });
-
-      console.log("response", response);
 
       const { data: responseData } = response;
 
