@@ -37,7 +37,7 @@ Axios.interceptors.request.use(
       const refreshToken = localStorage.getItem("refreshToken")
 
       if(refreshToken){
-        const newAccessToken = await refrehAceessToken(refreshToken)
+        const newAccessToken = await refreshAceessToken(refreshToken)
 
         if(newAccessToken){
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
@@ -50,7 +50,7 @@ Axios.interceptors.request.use(
   }
 )
 
-const refrehAceessToken = async(refreshToken) =>{
+const refreshAceessToken = async(refreshToken) =>{
   try {
     const response = await Axios({
       ...SummaryApi.refreshToken,
